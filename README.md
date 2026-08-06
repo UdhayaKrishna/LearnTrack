@@ -219,7 +219,7 @@ java -cp bin com.airtribe.learntrack.ui.Main
 ```
 Choose an option: 1
 First name: John
-Last name: Doe
+Last name: Do
 Email: john.doe@example.com
 Batch: Batch-2026-01
 Student added successfully with ID 1
@@ -255,6 +255,10 @@ Refer to:
 2. [JVM_Basics.md](docs/JVM_Basics.md) for Java concepts
 3. [Design_Notes.md](docs/Design_Notes.md) for architecture understanding
 4. Code comments in source files for implementation details
+
+---
+
+![img.png](img.png)
 
 ---
 
