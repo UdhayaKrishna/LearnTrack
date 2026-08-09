@@ -1,9 +1,11 @@
-package com.airtribe.learntrack.util;
+package com.airtribe.learntrack.manager;
 
 import com.airtribe.learntrack.entity.Course;
 import com.airtribe.learntrack.exception.EntityNotFoundException;
 import com.airtribe.learntrack.exception.InvalidInputException;
 import com.airtribe.learntrack.service.CourseService;
+import com.airtribe.learntrack.util.ConsoleInputReader;
+import com.airtribe.learntrack.util.ConsoleListPrinter;
 
 import java.util.Scanner;
 
@@ -24,7 +26,7 @@ public class CourseManager {
         ConsoleListPrinter.printList(courseService.listCourses(), "No courses available.");
     }
 
-    public static void toggleCourseStatus(Scanner scanner, CourseService courseService) throws EntityNotFoundException {
+    public static void toggleCourseStatus(Scanner scanner, CourseService courseService) throws EntityNotFoundException, InvalidInputException {
         System.out.print("Enter course ID: ");
         int id = ConsoleInputReader.readInt(scanner);
         System.out.print("Activate or deactivate? (A/D): ");
@@ -36,7 +38,7 @@ public class CourseManager {
             courseService.deactivateCourse(id);
             System.out.println("Course deactivated.");
         } else {
-            System.out.println("Invalid choice.");
+            throw new InvalidInputException("Invalid choice. Please choose A/D.");
         }
     }
 }

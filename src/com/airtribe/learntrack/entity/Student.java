@@ -4,9 +4,6 @@ public class Student extends Person {
     private String batch;
     private boolean active;
 
-    public Student() {
-    }
-
     public Student(int id, String firstName, String lastName, String email, String batch, boolean active) {
         super(id, firstName, lastName, email);
         this.batch = batch;
@@ -14,7 +11,7 @@ public class Student extends Person {
     }
 
     public Student(int id, String firstName, String lastName, String batch, boolean active) {
-        this(id, firstName, lastName, "", batch, active);
+        this(id, firstName, lastName, null, batch, active);
     }
 
     public String getBatch() {
@@ -35,7 +32,7 @@ public class Student extends Person {
 
     @Override
     public String getDisplayName() {
-        return getLastName() + " " + getFirstName();
+        return "StudentName:\t" + super.getDisplayName();
     }
 
     @Override

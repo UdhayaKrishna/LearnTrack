@@ -8,6 +8,6 @@ public class Trainer extends Person {
 
     @Override
     public String getDisplayName() {
-        return "TeacherName:\t" + getLastName() + getFirstName();
+        return "TeacherName:\t" + getLastName() + " " + getFirstName();
     }
 }

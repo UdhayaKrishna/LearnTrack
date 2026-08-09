@@ -2,13 +2,12 @@ package com.airtribe.learntrack.ui;
 
 import com.airtribe.learntrack.exception.EntityNotFoundException;
 import com.airtribe.learntrack.exception.InvalidInputException;
+import com.airtribe.learntrack.manager.CourseManager;
+import com.airtribe.learntrack.manager.EnrollmentManager;
+import com.airtribe.learntrack.manager.StudentManager;
 import com.airtribe.learntrack.service.CourseService;
 import com.airtribe.learntrack.service.EnrollmentService;
 import com.airtribe.learntrack.service.StudentService;
-import com.airtribe.learntrack.util.ConsoleMenu;
-import com.airtribe.learntrack.util.CourseManager;
-import com.airtribe.learntrack.util.EnrollmentManager;
-import com.airtribe.learntrack.util.StudentManager;
 
 import java.util.Scanner;
 
@@ -64,8 +63,17 @@ public class Main {
                     default:
                         System.out.println("Invalid option. Please try again.");
                 }
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
+            } catch (InvalidInputException e) {
+                System.out.println("Input Error: " + e.getMessage());
+                System.out.println("Please check your input and try again.");
+
+            } catch (EntityNotFoundException e) {
+                System.out.println("Not Found: " + e.getMessage());
+                System.out.println("Use the menu to view all available records.");
+
+            } catch (RuntimeException e) {
+                System.err.println("Unexpected system error occurred!");
+                e.printStackTrace();
             }
         }
         scanner.close();

@@ -4,6 +4,7 @@ import com.airtribe.learntrack.entity.Enrollment;
 import com.airtribe.learntrack.entity.Status;
 import com.airtribe.learntrack.exception.EntityNotFoundException;
 import com.airtribe.learntrack.util.IdGenerator;
+import com.airtribe.learntrack.util.ValidationUtil;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,16 +14,17 @@ public class EnrollmentService extends BaseService<Enrollment> {
     private static final List<Enrollment> enrollments = new ArrayList<>();
 
     public EnrollmentService() {
-        super();
-        this.items.addAll(enrollments);
+        super(enrollments);
     }
 
     public Enrollment enrollStudent(int studentId, int courseId, StudentService studentService, CourseService courseService)
             throws EntityNotFoundException {
         studentService.findStudentById(studentId);
         courseService.findCourseById(courseId);
+        ValidationUtil.validateDuplicateEnrollment(studentId, courseId, this, "enrollment");
+        ValidationUtil.validateStudent(studentService, studentId, "student");
+        ValidationUtil.validateCourse(courseService, courseId,  "course");
         Enrollment enrollment = new Enrollment(IdGenerator.getNextEnrollmentId(), studentId, courseId, LocalDate.now(), Status.ACTIVE);
-        items.add(enrollment);
         enrollments.add(enrollment);
         return enrollment;
     }
@@ -38,11 +40,11 @@ public class EnrollmentService extends BaseService<Enrollment> {
     }
 
     public void markEnrollmentStatus(int enrollmentId, Status status) throws EntityNotFoundException {
-        Enrollment enrollment = findById(items, enrollmentId, "Enrollment", Enrollment::getId);
+        Enrollment enrollment = findById(enrollmentId, "Enrollment", Enrollment::getId);
         enrollment.setStatus(status);
     }
 
     public List<Enrollment> listEnrollments() {
-        return items;
+        return new ArrayList<>(items);
     }
 }

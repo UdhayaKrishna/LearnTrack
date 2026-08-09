@@ -9,9 +9,6 @@ public class Enrollment {
     private int courseId;
     private int studentId;
 
-    public Enrollment() {
-    }
-
     public Enrollment(int id, int studentId, int courseId, LocalDate enrollmentDate, Status status) {
         this.id = id;
         this.studentId = studentId;

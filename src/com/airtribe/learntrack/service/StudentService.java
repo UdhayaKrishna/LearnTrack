@@ -13,8 +13,7 @@ public class StudentService extends BaseService<Student> {
     private static final List<Student> students = new ArrayList<>();
 
     public StudentService() {
-        super();
-        this.items.addAll(students);
+        super(students);
     }
 
     public Student addStudent(String firstName, String lastName, String email, String batch) throws InvalidInputException {
@@ -22,8 +21,8 @@ public class StudentService extends BaseService<Student> {
             ValidationUtil.validateName(firstName, "first name");
             ValidationUtil.validateName(lastName, "last name");
             ValidationUtil.validateText(batch, "batch");
+            ValidationUtil.validateEmail(email, "email");
             Student student = new Student(IdGenerator.getNextStudentId(), firstName.trim(), lastName.trim(), email.trim(), batch.trim(), true);
-            items.add(student);
             students.add(student);
             return student;
         } catch (IllegalArgumentException e) {
@@ -36,15 +35,19 @@ public class StudentService extends BaseService<Student> {
     }
 
     public List<Student> listStudents() {
-        return items;
+        return new ArrayList<>(items);
     }
 
     public Student findStudentById(int id) throws EntityNotFoundException {
-        return findById(items, id, "Student", Student::getId);
+        return findById(id, "Student", Student::getId);
     }
 
-    public void deactivateStudent(int id) throws EntityNotFoundException {
+    public boolean deactivateStudent(int id) throws EntityNotFoundException {
         Student student = findStudentById(id);
-        student.setActive(false);
+        if (student.isActive()) {
+            student.setActive(false);
+            return true;
+        }
+        return false;
     }
 }

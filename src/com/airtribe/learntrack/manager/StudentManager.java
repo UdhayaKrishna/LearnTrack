@@ -1,9 +1,11 @@
-package com.airtribe.learntrack.util;
+package com.airtribe.learntrack.manager;
 
 import com.airtribe.learntrack.entity.Student;
 import com.airtribe.learntrack.exception.EntityNotFoundException;
 import com.airtribe.learntrack.exception.InvalidInputException;
 import com.airtribe.learntrack.service.StudentService;
+import com.airtribe.learntrack.util.ConsoleInputReader;
+import com.airtribe.learntrack.util.ConsoleListPrinter;
 
 import java.util.Scanner;
 
@@ -26,17 +28,20 @@ public class StudentManager {
         ConsoleListPrinter.printList(studentService.listStudents(), "No students available.");
     }
 
-    public static void searchStudent(Scanner scanner, StudentService studentService) throws EntityNotFoundException {
+    public static void searchStudent(Scanner scanner, StudentService studentService) throws EntityNotFoundException, InvalidInputException {
         System.out.print("Enter student ID: ");
         int id = ConsoleInputReader.readInt(scanner);
         Student student = studentService.findStudentById(id);
         System.out.println(student);
     }
 
-    public static void deactivateStudent(Scanner scanner, StudentService studentService) throws EntityNotFoundException {
+    public static void deactivateStudent(Scanner scanner, StudentService studentService) throws EntityNotFoundException, InvalidInputException {
         System.out.print("Enter student ID to deactivate: ");
         int id = ConsoleInputReader.readInt(scanner);
-        studentService.deactivateStudent(id);
-        System.out.println("Student deactivated.");
+        if (studentService.deactivateStudent(id)) {
+            System.out.println("Student already deactivated");
+        } else {
+            System.out.println("Student deactivated.");
+        }
     }
 }

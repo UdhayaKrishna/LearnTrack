@@ -13,8 +13,7 @@ public class CourseService extends BaseService<Course> {
     private static final List<Course> courses = new ArrayList<>();
 
     public CourseService() {
-        super();
-        this.items.addAll(courses);
+        super(courses);
     }
 
     public Course addCourse(String courseName, String description, int durationInWeeks) throws InvalidInputException {
@@ -23,7 +22,6 @@ public class CourseService extends BaseService<Course> {
             ValidationUtil.validateText(description, "description");
             ValidationUtil.validatePositiveInteger(durationInWeeks, "Duration");
             Course course = new Course(IdGenerator.getNextCourseId(), courseName.trim(), description.trim(), durationInWeeks, true);
-            items.add(course);
             courses.add(course);
             return course;
         } catch (IllegalArgumentException e) {
@@ -32,11 +30,11 @@ public class CourseService extends BaseService<Course> {
     }
 
     public List<Course> listCourses() {
-        return items;
+        return new ArrayList<>(items);
     }
 
     public Course findCourseById(int id) throws EntityNotFoundException {
-        return findById(items, id, "Course", Course::getId);
+        return findById(id, "Course", Course::getId);
     }
 
     public void deactivateCourse(int id) throws EntityNotFoundException {

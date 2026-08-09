@@ -1,4 +1,4 @@
-package com.airtribe.learntrack.util;
+package com.airtribe.learntrack.ui;
 
 public class ConsoleMenu {
     public static void printMenu() {

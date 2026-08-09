@@ -7,9 +7,6 @@ public class Course {
     private int durationInWeeks;
     private boolean active;
 
-    public Course() {
-    }
-
     public Course(int id, String courseName, String description, int durationInWeeks, boolean active) {
         this.id = id;
         this.courseName = courseName;

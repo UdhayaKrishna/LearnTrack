@@ -2,18 +2,18 @@ package com.airtribe.learntrack.service;
 
 import com.airtribe.learntrack.exception.EntityNotFoundException;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class BaseService<T> {
     protected final List<T> items;
 
-    public BaseService() {
-        this.items = new ArrayList<>();
+    public BaseService(List<T> sharedBackingStore) {
+        this.items = sharedBackingStore;
     }
 
-    protected T findById(List<T> list, int id, String entityName, IdProvider<T> idProvider) throws EntityNotFoundException {
-        for (T item : list) {
+    protected T findById(int id, String entityName, IdProvider<T> idProvider) throws EntityNotFoundException {
+        for (T item : this.items) {
             if (idProvider.getId(item) == id) {
                 return item;
             }
@@ -21,8 +21,12 @@ public abstract class BaseService<T> {
         throw new EntityNotFoundException(entityName + " with id " + id + " was not found.");
     }
 
+    /**
+     * Returns an unmodifiable view of the internal list.
+     * Prevents external callers from adding or removing items directly.
+     */
     public List<T> listAll() {
-        return items;
+        return Collections.unmodifiableList(items);
     }
 
     @FunctionalInterface

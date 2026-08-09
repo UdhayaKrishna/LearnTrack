@@ -49,7 +49,7 @@ public class Person {
     }
 
     public String getDisplayName() {
-        return firstName + " " + lastName;
+        return lastName + " " + firstName;
     }
 
     @Override
