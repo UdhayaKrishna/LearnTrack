@@ -38,7 +38,7 @@ public class StudentManager {
     public static void deactivateStudent(Scanner scanner, StudentService studentService) throws EntityNotFoundException, InvalidInputException {
         System.out.print("Enter student ID to deactivate: ");
         int id = ConsoleInputReader.readInt(scanner);
-        if (studentService.deactivateStudent(id)) {
+        if (!studentService.deactivateStudent(id)) {
             System.out.println("Student already deactivated");
         } else {
             System.out.println("Student deactivated.");
